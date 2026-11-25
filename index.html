@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content" />
+  <meta name="theme-color" content="#1c1815" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="icon" href="icones/icone-192.png" />
+  <link rel="apple-touch-icon" href="icones/icone-180-mascara.png" />
+  <title>Engine de Mördravak</title>
+  <script type="module" crossorigin src="./assets/index-7im3bmpS.js"></script>
+  <link rel="modulepreload" crossorigin href="./assets/CanvasPool-CobN8DT4.js">
+  <link rel="modulepreload" crossorigin href="./assets/canvasUtils-DPmzIMhS.js">
+  <link rel="modulepreload" crossorigin href="./assets/RenderTargetSystem-DAsoQ-K1.js">
+  <link rel="modulepreload" crossorigin href="./assets/getTextureBatchBindGroup-Cf5y2Sqj.js">
+  <link rel="modulepreload" crossorigin href="./assets/getTexelRangeRects-DKb6sGv5.js">
+  <link rel="stylesheet" crossorigin href="./assets/index-B-NrQ8U5.css">
+</head>
+<body>
+  <header>
+    <div class="marca">Mördravak</div>
+    <select id="escolheCena" title="Cena"></select>
+    <button id="btNova" class="icone-bt" title="Nova cena a partir de um trecho da narração"></button>
+    <div class="segmentado modo" role="group" aria-label="Modo">
+      <button id="btMontar" class="ativo" title="Montar: posicionar e arrumar o começo de cada plano">Montar</button>
+      <button id="btAnimar" title="Animar: mexer em algo cria a ação na palavra atual">Animar</button>
+    </div>
+    <span class="espaco"></span>
+    <button id="btInicio" class="icone-bt" title="Início (Home)"></button>
+    <button id="btTocar" class="tocar" title="Tocar / pausar (espaço)"></button>
+    <span id="relogio">00:00.00</span>
+    <span class="espaco"></span>
+    <button id="btDesfazer" class="icone-bt" title="Desfazer (Ctrl+Z)"></button>
+    <button id="btRefazer" class="icone-bt" title="Refazer (Ctrl+Y)"></button>
+    <span id="salvo" class="ok" title="A cena salva sozinha no arquivo">salvo</span>
+    <div class="menu-wrap">
+      <button id="btMenu" class="icone-bt" title="Mais opções"></button>
+      <div id="menu" class="menu" hidden>
+        <label>Qualidade da prévia
+          <select id="qualidade">
+            <option value="0.5">540×960 (normal)</option>
+            <option value="0.35">leve (PC mais lento)</option>
+            <option value="1">1080×1920 (cheia)</option>
+          </select>
+        </label>
+        <button id="btAjuda">Como usar</button>
+        <div id="desempenho"></div>
+      </div>
+    </div>
+    <button id="btExportar" class="principal" title="Exportar vídeo final e versão TikTok"></button>
+  </header>
+  <main>
+    <nav id="trilho"></nav>
+    <section id="gaveta" hidden></section>
+    <section id="tela">
+      <div id="moldura"></div>
+      <div id="ferramentas">
+        <button id="btSelecionar" class="icone-bt ativo" title="Selecionar e mover (V)"></button>
+        <button id="btCamera" class="icone-bt" title="Câmera (C): arrastar enquadra, roda aproxima"></button>
+        <button id="btSeda" class="icone-bt" title="Papel de seda (O): mostra os quadros vizinhos"></button>
+      </div>
+    </section>
+    <aside>
+      <div id="tituloCena">—</div>
+      <div id="estado"></div>
+      <div id="rolagem">
+        <div id="inspetor"></div>
+        <details id="caixaAvisos"><summary id="resumoAvisos">Avisos</summary><ul id="avisos"></ul></details>
+      </div>
+      <div id="camadas"></div>
+    </aside>
+  </main>
+  <footer>
+    <div id="linha"></div>
+  </footer>
+  <div id="exportando" hidden>
+    <div class="caixa">
+      <h3>Exportando…</h3>
+      <progress id="progExp" max="1" value="0"></progress>
+      <p id="msgExp"></p>
+      <button id="btFecharExp" hidden>Fechar</button>
+    </div>
+  </div>
+  <div id="ajuda" hidden>
+    <div class="caixa">
+      <h3>Como usar o editor</h3>
+      <ul>
+        <li><b>Montar</b> (no topo): arrume o começo de cada plano. Arraste figurinhas da biblioteca (à esquerda) para o palco; clique num personagem e arraste para mover. Mais embaixo = mais perto.</li>
+        <li><b>Animar</b>: clique numa palavra da linha do tempo e mexa no personagem (arraste, ou escolha uma pose/expressão no painel). A mudança vira uma ação que começa nessa palavra.</li>
+        <li><b>Painel da direita</b>: poses, expressões, gestos e para onde o personagem olha, em figurinhas. Os números ficam em "Ajuste fino".</li>
+        <li><b>Atmosfera</b> (último ícone da biblioteca): dia, entardecer, noite fria, neblina, memória dourada, fogueira — com prévia do seu plano.</li>
+        <li><b>Linha do tempo</b>: arraste a barra de uma ação para outra palavra, ou as pontas para mudar começo e fim (Alt deixa livre). Arraste a borda de um plano para mudar o corte. Clique duplo numa palavra também cria uma ação.</li>
+        <li><b>Ferramentas do palco</b> (embaixo da tela): selecionar (V), câmera (C: arrastar enquadra, roda aproxima), papel de seda (O).</li>
+        <li>Espaço toca/pausa · ← → quadro a quadro (Shift: 1 s) · Delete apaga · Ctrl+Z desfaz · Esc limpa a seleção. A cena salva sozinha.</li>
+      </ul>
+      <button id="btFecharAjuda">Fechar</button>
+    </div>
+  </div>
+</body>
+</html>
